@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1505144223 source:f:\c_project\property management\fileclient.c
+1507473497 source:f:\c_project\property management\fileclient.c
 	<stdio.h>
 	<stdlib.h>
 
-1505144709 source:f:\c_project\property management\main.c
+1507473563 source:f:\c_project\property management\main.c
 	<stdio.h>
 	"FileClient.h"
 	<windows.h>
 
-1505141617 f:\c_project\property management\fileclient.h
+1507471768 f:\c_project\property management\fileclient.h
 

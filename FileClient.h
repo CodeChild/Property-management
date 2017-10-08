@@ -4,5 +4,5 @@
 extern void openFile(FILE* fp);
 extern void addFileContent();
 extern void readFile();
-
+extern void queryFile();
 #endif // FILECLIENT_H_INCLUDED

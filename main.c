@@ -22,6 +22,7 @@ void addRecord()
     printf(">");
     addFileContent();
     printf("\n添加后的记录如下：\n");
+    printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
     readFile();
     returnMenu();
 }
@@ -90,8 +91,9 @@ void modifyRecord()
 void queryRecord()
 {
     system("cls");
-    printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
-    readFile();
+    //printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
+    queryFile();
+    //readFile();
     returnMenu();
 }
 void returnMenu()
