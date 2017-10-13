@@ -19,8 +19,8 @@ static int eofIndex=0;
 void openFile(FILE* fp)
 {
 
-    if((fp=fopen(fileName,"rb"))==NULL)
-        if((fp=fopen(fileName,"wb"))==NULL)
+    if((fp=fopen(fileName,"r"))==NULL)
+        if((fp=fopen(fileName,"w"))==NULL)
         {
             printf("不能打开文件\n");
             exit(0);
@@ -32,7 +32,7 @@ void addFileContent()
     char ch;
     FILE *fp;
     int i=eofIndex;
-     if((fp=fopen(fileName,"wb"))==NULL)
+     if((fp=fopen(fileName,"w"))==NULL)
         {
             printf("不能打开文件\n");
             exit(0);
@@ -50,6 +50,7 @@ void addFileContent()
     eofIndex=i;
     for(i=0;i<=100;i++){
         fwrite(&mPayments[i],sizeof(mPayments[i]),1,fp);
+
     }
 
     fclose(fp);
@@ -59,9 +60,10 @@ void readFile()
     struct Payment mPayment;
     FILE *fp;
     int i=0;
-    if((fp=fopen(fileName,"rb"))==NULL)
+    if((fp=fopen(fileName,"r"))==NULL)
     {
         printf("不能打开文件\n");
+        getchar();
         exit(0);
     }
     printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
@@ -79,7 +81,7 @@ void readFile()
 void modifyFile(int roomId,char* date,int money)
 {
     FILE *fp;
-    if((fp=fopen(fileName,"wb"))==NULL)
+    if((fp=fopen(fileName,"w"))==NULL)
     {
         printf("不能打开文件\n");
         exit(0);
@@ -118,7 +120,7 @@ void queryfjh()
  int fjh;
  char yn;
  FILE *fp;
- if((fp=fopen(fileName,"rb"))==NULL)
+ if((fp=fopen(fileName,"r"))==NULL)
  {
   printf("没有任何记录！\n");
   exit(0);
@@ -139,7 +141,7 @@ void queryyzm()
  FILE *fp;
  char yzm[20];
  char yn;
- if((fp=fopen("Payment.data","rb"))==NULL)
+ if((fp=fopen("Payment.data","r"))==NULL)
  {
   printf("没有任何记录！\n");
   exit(0);
