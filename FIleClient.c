@@ -14,11 +14,13 @@ struct Payment
 
     int money;
 };
+static struct  Payment mPayments[100];
+static int eofIndex=0;
 void openFile(FILE* fp)
 {
 
-    if((fp=fopen(fileName,"r"))==NULL)
-        if((fp=fopen(fileName,"w"))==NULL)
+    if((fp=fopen(fileName,"rb"))==NULL)
+        if((fp=fopen(fileName,"wb"))==NULL)
         {
             printf("不能打开文件\n");
             exit(0);
@@ -29,43 +31,69 @@ void addFileContent()
     struct Payment mPayment;
     char ch;
     FILE *fp;
-    if((fp=fopen(fileName,"a"))==NULL)
-        openFile(fp);
+    int i=eofIndex;
+     if((fp=fopen(fileName,"wb"))==NULL)
+        {
+            printf("不能打开文件\n");
+            exit(0);
+        }
     do
     {
         scanf("%d %s %d %s %d %d",&mPayment.roomId,mPayment.name,&mPayment.area,mPayment.date,&mPayment.payMonth,&mPayment.money);
-        fwrite(&mPayment,sizeof(mPayment),1,fp);
-        printf("要输入其它记录吗？(y\n)");
+        mPayments[i]=mPayment;
+        printf("要输入其它记录吗？(y/n)");
         getchar();
         ch=getchar();
+        i++;
     }
     while(ch=='y');
+    eofIndex=i;
+    for(i=0;i<=100;i++){
+        fwrite(&mPayments[i],sizeof(mPayments[i]),1,fp);
+    }
+
     fclose(fp);
 }
 void readFile()
 {
     struct Payment mPayment;
     FILE *fp;
-    if((fp=fopen(fileName,"r"))==NULL)
+    int i=0;
+    if((fp=fopen(fileName,"rb"))==NULL)
     {
         printf("不能打开文件\n");
         exit(0);
     }
-    while(fread(&mPayment,sizeof(mPayment),1,fp)==1)
-        printf("%d    %s    %d    %s    %d    %d\n",mPayment.roomId,mPayment.name,mPayment.area,mPayment.date,mPayment.payMonth,mPayment.money);
+    printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
+    while(fread(&mPayment,sizeof(mPayment),1,fp)==1){
+        mPayments[i]=mPayment;
+        if(mPayment.roomId!=0){
+            printf("%d    %s    %d    %s    %d    %d\n",mPayment.roomId,mPayment.name,mPayment.area,mPayment.date,mPayment.payMonth,mPayment.money);
+            i++;
+        }
+        else break;
+    }
+    eofIndex=i;
     fclose(fp);
 }
-void modifyFile(int roomId,int money)
+void modifyFile(int roomId,char* date,int money)
 {
-    struct Payment mPayment;
     FILE *fp;
-    openFile(fp);
-    int index=0,i=0;
-    while(fread(&mPayment,sizeof(mPayment),1,fp)==1)
+    if((fp=fopen(fileName,"wb"))==NULL)
     {
-        index++;
-        if(roomId==mPayment.roomId) break;
+        printf("不能打开文件\n");
+        exit(0);
     }
+    int i,index;
+    for(i=0;i<100;i++)
+        if(roomId==mPayments[i].roomId&&!strcmp(date,mPayments[i].date))
+        {
+            mPayments[i].money+=money;
+            index=i;
+            break;
+        }
+    for(i=0;i<=100;i++)
+         fwrite(&mPayments[i],sizeof(mPayments[i]),1,fp);
 
 }
 
@@ -90,7 +118,7 @@ void queryfjh()
  int fjh;
  char yn;
  FILE *fp;
- if((fp=fopen(fileName,"r"))==NULL)
+ if((fp=fopen(fileName,"rb"))==NULL)
  {
   printf("没有任何记录！\n");
   exit(0);
@@ -111,7 +139,7 @@ void queryyzm()
  FILE *fp;
  char yzm[20];
  char yn;
- if((fp=fopen("Payment.data","r"))==NULL)
+ if((fp=fopen("Payment.data","rb"))==NULL)
  {
   printf("没有任何记录！\n");
   exit(0);
@@ -126,6 +154,7 @@ void queryyzm()
 
 
  }
+  fclose(fp);
 
 }
 

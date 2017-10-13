@@ -16,13 +16,13 @@ int main()
 void addRecord()
 {
     system("cls");
+    readFile();
     printf("\n\n添加记录\n");
     printf("请输入房间号,业主名,房间面积,缴费日期,交了几个月,金额\n");
     printf("(中间以空格隔开)\n");
     printf(">");
     addFileContent();
     printf("\n添加后的记录如下：\n");
-    printf("房间号 业主名 房间面积 缴费日期 交了几个月 金额\n");
     readFile();
     returnMenu();
 }
@@ -85,7 +85,19 @@ void initMenu()
 }
 void modifyRecord()
 {
+    char date[50];
+    int roomId;
+    int money;
     system("cls");
+    readFile();
+    printf("请输入房间号：");
+    scanf("%d",&roomId);
+    printf("\n请输入缴费日期:");
+    scanf("%s",date);
+    printf("\n请输入收费找零的金额(正数收费，负数找零)：");
+    scanf("%d",&money);
+    modifyFile(roomId,date,money);
+    readFile();
     returnMenu();
 }
 void queryRecord()
